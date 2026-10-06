@@ -1,0 +1,33 @@
+name: check
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  v:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: espera
+        run: sleep 55
+      - name: verifica
+        run: |
+          {
+            echo "url: https://lh434534.github.io/sobre/"
+            for f in "" index.html .nojekyll; do
+              code=$(curl -s -o /tmp/b -w "%{http_code}" -L "https://lh434534.github.io/sobre/$f")
+              echo "  /$f -> $code ($(wc -c < /tmp/b) bytes)"
+            done
+            echo "--- titulo ---"
+            curl -s -L https://lh434534.github.io/sobre/ | grep -o '<title>.*</title>' | head -1
+            echo "--- jogos no catalogo ---"
+            curl -s -L https://lh434534.github.io/sobre/ | grep -c 'nm:"' || true
+          } > check.txt 2>&1
+      - name: publica
+        run: |
+          git config user.name c; git config user.email c@b.local
+          git add check.txt
+          git diff --cached --quiet || git commit -m "check"
+          git push
