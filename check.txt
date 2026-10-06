@@ -1,0 +1,8 @@
+url: https://lh434534.github.io/sobre/
+  / -> 200 (34996 bytes)
+  /index.html -> 200 (34996 bytes)
+  /.nojekyll -> 200 (0 bytes)
+--- titulo ---
+<title>Thiairô Hans Awdrey</title>
+--- jogos no catalogo ---
+12
